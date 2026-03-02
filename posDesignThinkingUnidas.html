@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protótipo Unidas — App Mobile</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #0052CC;
+    --red-dark: #003D99;
+    --red-light: #2970E8;
+    --dark: #0D0D0D;
+    --gray-90: #1A1A1A;
+    --gray-80: #2C2C2C;
+    --gray-50: #808080;
+    --gray-20: #CECECE;
+    --gray-10: #F2F2F2;
+    --white: #FFFFFF;
+    --green: #00C48C;
+    --amber: #FFB400;
+  }
+
+  body {
+    background: #111;
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 80px;
+  }
+
+  /* HEADER */
+  .page-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .page-header h1 {
+    font-family: 'Sora', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 10px;
+  }
+  .page-header h2 {
+    font-family: 'Sora', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.2;
+  }
+  .page-header p {
+    font-size: 14px;
+    color: var(--gray-50);
+    margin-top: 10px;
+    max-width: 520px;
+  }
+
+  /* FLOW LABEL */
+  .flow-label {
+    font-family: 'Sora', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .flow-label::before, .flow-label::after {
+    content: '';
+    height: 1px;
+    width: 40px;
+    background: var(--red);
+    opacity: 0.4;
+  }
+
+  /* SCREENS ROW */
+  .screens-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+
+  /* ARROW */
+  .arrow {
+    display: flex;
+    align-items: center;
+    padding-top: 160px;
+    color: var(--red);
+    font-size: 22px;
+    opacity: 0.6;
+  }
+
+  /* PHONE SHELL */
+  .phone {
+    width: 220px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .phone-label {
+    font-family: 'Sora', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray-50);
+  }
+  .phone-shell {
+    width: 220px;
+    height: 420px;
+    background: var(--gray-90);
+    border-radius: 36px;
+    border: 2px solid var(--gray-80);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset;
+    overflow: hidden;
+    position: relative;
+  }
+  .phone-notch {
+    width: 70px;
+    height: 14px;
+    background: var(--dark);
+    border-radius: 0 0 12px 12px;
+    margin: 0 auto;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+  .phone-screen {
+    width: 100%;
+    height: 100%;
+    background: var(--white);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ============ SCREEN 1 — SPLASH/LOGIN ============ */
+  .s1 .header-bar {
+    background: var(--red);
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 12px;
+    padding-top: 20px;
+  }
+  .s1 .logo {
+    font-family: 'Sora', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: white;
+    letter-spacing: 0.05em;
+  }
+  .s1 .logo span { opacity: 0.6; font-size: 12px; font-weight: 400; display: block; letter-spacing: 0.12em; margin-top: 1px; }
+  .s1 .body { flex: 1; display: flex; flex-direction: column; padding: 22px 18px; gap: 14px; }
+  .s1 .car-icon { font-size: 40px; text-align: center; margin: 4px 0 8px; }
+  .s1 .field {
+    background: var(--gray-10);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 11px;
+    color: var(--gray-50);
+    border: 1.5px solid var(--gray-20);
+  }
+  .s1 .field.filled { color: var(--dark); border-color: var(--red); }
+  .s1 .btn {
+    background: var(--red);
+    color: white;
+    border-radius: 12px;
+    padding: 12px;
+    font-family: 'Sora', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+  }
+  .s1 .link { font-size: 10px; color: var(--red); text-align: center; }
+  .s1 .divider { font-size: 10px; color: var(--gray-50); text-align: center; display: flex; align-items: center; gap: 8px; }
+  .s1 .divider::before, .s1 .divider::after { content:''; flex:1; height:1px; background: var(--gray-20); }
+  .s1 .social { background: var(--gray-10); border-radius: 10px; padding: 9px 14px; font-size: 10px; color: var(--dark); text-align: center; border: 1.5px solid var(--gray-20); }
+
+  /* ============ SCREEN 2 — HOME ============ */
+  .s2 .top-bar {
+    background: var(--red);
+    padding: 24px 16px 14px;
+    color: white;
+  }
+  .s2 .top-bar .greeting { font-size: 10px; opacity: 0.8; }
+  .s2 .top-bar .name { font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 700; }
+  .s2 .top-bar .tag { background: rgba(255,255,255,0.2); border-radius: 20px; padding: 2px 8px; font-size: 9px; display: inline-block; margin-top: 4px; }
+  .s2 .body { flex:1; padding: 14px; background: var(--gray-10); overflow: hidden; }
+  .s2 .section-title { font-family: 'Sora', sans-serif; font-size: 10px; font-weight: 700; color: var(--dark); margin-bottom: 8px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .s2 .quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+  .s2 .qa-card {
+    background: white;
+    border-radius: 12px;
+    padding: 12px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  }
+  .s2 .qa-card .qa-icon { font-size: 18px; }
+  .s2 .qa-card .qa-title { font-family: 'Sora', sans-serif; font-size: 9px; font-weight: 700; color: var(--dark); }
+  .s2 .qa-card .qa-sub { font-size: 8px; color: var(--gray-50); }
+  .s2 .qa-card.highlight { background: var(--red); }
+  .s2 .qa-card.highlight .qa-title, .s2 .qa-card.highlight .qa-sub { color: white; }
+  .s2 .active-card {
+    background: white;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .s2 .active-card .ac-icon { font-size: 26px; }
+  .s2 .active-card .ac-info { flex:1; }
+  .s2 .active-card .ac-car { font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700; color: var(--dark); }
+  .s2 .active-card .ac-plate { font-size: 9px; color: var(--gray-50); }
+  .s2 .active-card .ac-badge { background: var(--green); color: white; font-size: 8px; font-weight: 700; border-radius: 6px; padding: 2px 6px; font-family: 'Sora', sans-serif; }
+  .s2 .bottom-nav {
+    background: white;
+    border-top: 1px solid var(--gray-20);
+    display: flex;
+    padding: 8px 0 4px;
+  }
+  .s2 .nav-item { flex:1; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 16px; }
+  .s2 .nav-item span { font-size: 8px; color: var(--gray-50); }
+  .s2 .nav-item.active span { color: var(--red); }
+
+  /* ============ SCREEN 3 — BUSCAR ============ */
+  .s3 .top-bar { background: var(--red); padding: 22px 14px 12px; color: white; }
+  .s3 .top-bar .back { font-size: 14px; margin-bottom: 4px; opacity: 0.8; }
+  .s3 .top-bar .title { font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 700; }
+  .s3 .body { flex:1; padding: 14px; overflow: hidden; display: flex; flex-direction: column; gap: 10px; }
+  .s3 .form-group { display: flex; flex-direction: column; gap: 4px; }
+  .s3 .form-label { font-size: 9px; font-weight: 700; color: var(--gray-50); text-transform: uppercase; letter-spacing: 0.1em; }
+  .s3 .form-field { background: var(--gray-10); border-radius: 10px; padding: 9px 12px; font-size: 11px; color: var(--dark); border: 1.5px solid var(--gray-20); display: flex; align-items: center; gap: 6px; }
+  .s3 .form-field .icon { font-size: 14px; }
+  .s3 .form-field.active { border-color: var(--red); }
+  .s3 .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .s3 .chip-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .s3 .chip { background: var(--gray-10); border-radius: 20px; padding: 4px 10px; font-size: 9px; color: var(--dark); border: 1.5px solid var(--gray-20); }
+  .s3 .chip.sel { background: var(--red); color: white; border-color: var(--red); font-weight: 700; }
+  .s3 .btn { background: var(--red); color: white; border-radius: 12px; padding: 12px; font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; text-align: center; letter-spacing: 0.05em; margin-top: auto; }
+
+  /* ============ SCREEN 4 — RESULTADOS ============ */
+  .s4 .top-bar { background: var(--red); padding: 22px 14px 12px; color: white; display: flex; justify-content: space-between; align-items: flex-end; }
+  .s4 .top-bar .title { font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 700; }
+  .s4 .top-bar .subtitle { font-size: 9px; opacity: 0.8; margin-top: 2px; }
+  .s4 .top-bar .filter { font-size: 20px; }
+  .s4 .body { flex:1; padding: 10px; background: var(--gray-10); overflow: hidden; display: flex; flex-direction: column; gap: 8px; }
+  .s4 .car-card { background: white; border-radius: 14px; padding: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); display: flex; gap: 10px; align-items: center; }
+  .s4 .car-card.featured { border: 2px solid var(--red); }
+  .s4 .car-card .car-img { font-size: 28px; }
+  .s4 .car-card .car-info { flex:1; }
+  .s4 .car-card .car-name { font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700; color: var(--dark); }
+  .s4 .car-card .car-cat { font-size: 9px; color: var(--gray-50); }
+  .s4 .car-card .car-badges { display: flex; gap: 4px; margin-top: 4px; flex-wrap: wrap; }
+  .s4 .car-card .badge { font-size: 8px; padding: 2px 6px; border-radius: 6px; font-weight: 700; }
+  .s4 .badge-ac { background: #E3F5FF; color: #0066CC; }
+  .s4 .badge-auto { background: #FFF3E0; color: #E65100; }
+  .s4 .badge-top { background: #E8EEFF; color: var(--red); }
+  .s4 .car-card .car-price { text-align: right; }
+  .s4 .car-card .price-val { font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 800; color: var(--red); }
+  .s4 .car-card .price-unit { font-size: 8px; color: var(--gray-50); }
+  .s4 .bottom-nav { background: white; border-top: 1px solid var(--gray-20); display: flex; padding: 8px 0 4px; }
+  .s4 .nav-item { flex:1; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 16px; }
+  .s4 .nav-item span { font-size: 8px; color: var(--gray-50); }
+
+  /* ============ SCREEN 5 — CONFIRMAÇÃO ============ */
+  .s5 .top-bar { background: var(--red); padding: 22px 14px 12px; color: white; }
+  .s5 .top-bar .back { font-size: 14px; margin-bottom: 4px; opacity: 0.8; }
+  .s5 .top-bar .title { font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 700; }
+  .s5 .body { flex:1; padding: 14px; overflow: hidden; display: flex; flex-direction: column; gap: 10px; }
+  .s5 .car-hero { background: var(--gray-10); border-radius: 14px; padding: 14px; text-align: center; }
+  .s5 .car-hero .car-big { font-size: 46px; }
+  .s5 .car-hero .car-name { font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 800; color: var(--dark); margin-top: 4px; }
+  .s5 .car-hero .car-plate { font-size: 10px; color: var(--gray-50); letter-spacing: 0.1em; }
+  .s5 .summary { background: white; border-radius: 12px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .s5 .sum-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--gray-10); font-size: 10px; }
+  .s5 .sum-row:last-child { border-bottom: none; }
+  .s5 .sum-label { color: var(--gray-50); }
+  .s5 .sum-val { font-weight: 700; color: var(--dark); }
+  .s5 .sum-val.total { color: var(--red); font-size: 13px; font-family: 'Sora', sans-serif; }
+  .s5 .pix-row { display: flex; gap: 6px; }
+  .s5 .pix-opt { flex:1; background: var(--gray-10); border-radius: 10px; padding: 8px; font-size: 9px; color: var(--dark); text-align: center; border: 1.5px solid var(--gray-20); }
+  .s5 .pix-opt.sel { border-color: var(--red); background: #f0f4ff; }
+  .s5 .pix-opt .pix-icon { font-size: 16px; }
+  .s5 .btn { background: var(--red); color: white; border-radius: 12px; padding: 12px; font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; text-align: center; letter-spacing: 0.05em; margin-top: auto; }
+
+  /* ============ SCREEN 6 — SUCESSO ============ */
+  .s6 .body { flex:1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; gap: 12px; background: white; }
+  .s6 .check { font-size: 56px; }
+  .s6 .title { font-family: 'Sora', sans-serif; font-size: 17px; font-weight: 800; color: var(--dark); }
+  .s6 .sub { font-size: 11px; color: var(--gray-50); max-width: 160px; line-height: 1.5; }
+  .s6 .ticket {
+    background: var(--gray-10);
+    border-radius: 14px;
+    padding: 12px 16px;
+    width: 100%;
+    border: 1.5px dashed var(--gray-20);
+  }
+  .s6 .ticket-row { display: flex; justify-content: space-between; font-size: 10px; padding: 3px 0; }
+  .s6 .ticket-label { color: var(--gray-50); }
+  .s6 .ticket-val { font-weight: 700; color: var(--dark); }
+  .s6 .btn { background: var(--red); color: white; border-radius: 12px; padding: 11px 28px; font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; }
+  .s6 .btn2 { background: transparent; color: var(--red); font-size: 10px; font-weight: 700; }
+
+  /* ANNOTATION PANEL */
+  .annotation-panel {
+    width: 100%;
+    max-width: 1040px;
+    margin-top: 56px;
+    background: var(--gray-90);
+    border-radius: 20px;
+    padding: 32px;
+    border: 1px solid var(--gray-80);
+  }
+  .annotation-panel h3 {
+    font-family: 'Sora', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--red);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .annotations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .ann-card {
+    background: var(--gray-80);
+    border-radius: 14px;
+    padding: 16px;
+    border-left: 3px solid var(--red);
+  }
+  .ann-card .ann-num {
+    font-family: 'Sora', sans-serif;
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--red);
+    margin-bottom: 6px;
+    letter-spacing: 0.1em;
+  }
+  .ann-card .ann-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .ann-card .ann-text {
+    font-size: 11px;
+    color: var(--gray-20);
+    line-height: 1.6;
+  }
+
+  /* FLOW SECTION */
+  .flow-section {
+    width: 100%;
+    max-width: 1040px;
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  @media (max-width: 640px) {
+    .arrow { display: none; }
+    .phone-shell { width: 200px; height: 380px; }
+    .phone { width: 200px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Design Thinking · Prototipação</h1>
+  <h2>Protótipo de Média Fidelidade<br>Aplicativo Unidas</h2>
+  <p>Simulação do fluxo principal de aluguel de veículo pelo smartphone, do login à confirmação de reserva.</p>
+</div>
+
+<!-- FLOW 1 -->
+<div class="flow-section">
+  <div class="flow-label">Fluxo 1 — Acesso e Início</div>
+  <div class="screens-row">
+
+    <!-- TELA 1: LOGIN -->
+    <div class="phone">
+      <div class="phone-shell s1">
+        <div class="phone-notch"></div>
+        <div class="phone-screen s1">
+          <div class="header-bar">
+            <div class="logo">UNIDAS<span>Mobilidade com liberdade</span></div>
+          </div>
+          <div class="body">
+            <div class="car-icon">🚗</div>
+            <div class="field filled">✉️&nbsp; <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a1cbcec0ce8fd2c8cdd7c0e1c4ccc0c8cd8fc2cecc">[email&#160;protected]</a></div>
+            <div class="field">🔒&nbsp; ••••••••</div>
+            <div class="btn">Entrar na conta</div>
+            <div class="link">Esqueci minha senha</div>
+            <div class="divider">ou entre com</div>
+            <div class="social">🍎 Continuar com Apple</div>
+            <div class="social">🔵 Continuar com Google</div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">Tela 01 · Login</div>
+    </div>
+
+    <div class="arrow">→</div>
+
+    <!-- TELA 2: HOME -->
+    <div class="phone">
+      <div class="phone-shell s2">
+        <div class="phone-notch"></div>
+        <div class="phone-screen s2">
+          <div class="top-bar">
+            <div class="greeting">Bom dia 👋</div>
+            <div class="name">João Silva</div>
+            <div class="tag">⭐ Cliente Ouro · 3 aluguéis</div>
+          </div>
+          <div class="body">
+            <div class="section-title">O que deseja fazer?</div>
+            <div class="quick-actions">
+              <div class="qa-card highlight">
+                <div class="qa-icon">🔑</div>
+                <div class="qa-title">Alugar veículo</div>
+                <div class="qa-sub">Rápido e sem filas</div>
+              </div>
+              <div class="qa-card">
+                <div class="qa-icon">📄</div>
+                <div class="qa-title">Meus contratos</div>
+                <div class="qa-sub">Histórico completo</div>
+              </div>
+              <div class="qa-card">
+                <div class="qa-icon">💳</div>
+                <div class="qa-title">Boletos</div>
+                <div class="qa-sub">Pagamentos</div>
+              </div>
+              <div class="qa-card">
+                <div class="qa-icon">💬</div>
+                <div class="qa-title">Chat</div>
+                <div class="qa-sub">Atendimento 24h</div>
+              </div>
+            </div>
+            <div class="section-title">Aluguel ativo</div>
+            <div class="active-card">
+              <div class="ac-icon">🚙</div>
+              <div class="ac-info">
+                <div class="ac-car">Hyundai HB20</div>
+                <div class="ac-plate">ABC-1D23 · até 15/03</div>
+              </div>
+              <div class="ac-badge">ATIVO</div>
+            </div>
+          </div>
+          <div class="bottom-nav">
+            <div class="nav-item active">🏠<span>Início</span></div>
+            <div class="nav-item">🚗<span>Alugar</span></div>
+            <div class="nav-item">📋<span>Contratos</span></div>
+            <div class="nav-item">👤<span>Perfil</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">Tela 02 · Home</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FLOW 2 -->
+<div class="flow-section" style="margin-top: 48px;">
+  <div class="flow-label">Fluxo 2 — Busca e Seleção</div>
+  <div class="screens-row">
+
+    <!-- TELA 3: BUSCA -->
+    <div class="phone">
+      <div class="phone-shell s3">
+        <div class="phone-notch"></div>
+        <div class="phone-screen s3">
+          <div class="top-bar">
+            <div class="back">← Voltar</div>
+            <div class="title">Buscar veículo</div>
+          </div>
+          <div class="body">
+            <div class="form-group">
+              <div class="form-label">📍 Local de retirada</div>
+              <div class="form-field active"><span class="icon">🏢</span> Aeroporto Guarulhos — GRU</div>
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <div class="form-label">📅 Retirada</div>
+                <div class="form-field"><span class="icon">📆</span>10/03/2025</div>
+              </div>
+              <div class="form-group">
+                <div class="form-label">📅 Devolução</div>
+                <div class="form-field"><span class="icon">📆</span>15/03/2025</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-label">🚗 Categoria</div>
+              <div class="chip-row">
+                <div class="chip sel">Econômico</div>
+                <div class="chip">SUV</div>
+                <div class="chip">Sedan</div>
+                <div class="chip">Pickup</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-label">⚙️ Câmbio</div>
+              <div class="chip-row">
+                <div class="chip sel">Automático</div>
+                <div class="chip">Manual</div>
+              </div>
+            </div>
+            <div class="btn">Buscar veículos disponíveis</div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">Tela 03 · Busca</div>
+    </div>
+
+    <div class="arrow">→</div>
+
+    <!-- TELA 4: RESULTADOS -->
+    <div class="phone">
+      <div class="phone-shell s4">
+        <div class="phone-notch"></div>
+        <div class="phone-screen s4">
+          <div class="top-bar">
+            <div>
+              <div class="title">Veículos disponíveis</div>
+              <div class="subtitle">GRU · 10 a 15/03 · 12 opções</div>
+            </div>
+            <div class="filter">⚙️</div>
+          </div>
+          <div class="body">
+            <div class="car-card featured">
+              <div class="car-img">🚗</div>
+              <div class="car-info">
+                <div class="car-name">VW Polo</div>
+                <div class="car-cat">Econômico · Automático</div>
+                <div class="car-badges">
+                  <span class="badge badge-ac">❄️ AC</span>
+                  <span class="badge badge-top">⭐ Mais alugado</span>
+                </div>
+              </div>
+              <div class="car-price">
+                <div class="price-val">R$89</div>
+                <div class="price-unit">/dia</div>
+              </div>
+            </div>
+            <div class="car-card">
+              <div class="car-img">🚙</div>
+              <div class="car-info">
+                <div class="car-name">HB20 S</div>
+                <div class="car-cat">Econômico · Automático</div>
+                <div class="car-badges">
+                  <span class="badge badge-ac">❄️ AC</span>
+                  <span class="badge badge-auto">🔄 Aut.</span>
+                </div>
+              </div>
+              <div class="car-price">
+                <div class="price-val">R$95</div>
+                <div class="price-unit">/dia</div>
+              </div>
+            </div>
+            <div class="car-card">
+              <div class="car-img">🛻</div>
+              <div class="car-info">
+                <div class="car-name">Toyota Yaris</div>
+                <div class="car-cat">Econômico · Automático</div>
+                <div class="car-badges">
+                  <span class="badge badge-ac">❄️ AC</span>
+                </div>
+              </div>
+              <div class="car-price">
+                <div class="price-val">R$102</div>
+                <div class="price-unit">/dia</div>
+              </div>
+            </div>
+          </div>
+          <div class="bottom-nav">
+            <div class="nav-item">🏠<span>Início</span></div>
+            <div class="nav-item">🚗<span>Alugar</span></div>
+            <div class="nav-item">📋<span>Contratos</span></div>
+            <div class="nav-item">👤<span>Perfil</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">Tela 04 · Resultados</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FLOW 3 -->
+<div class="flow-section" style="margin-top: 48px;">
+  <div class="flow-label">Fluxo 3 — Confirmação e Conclusão</div>
+  <div class="screens-row">
+
+    <!-- TELA 5: CONFIRMAÇÃO -->
+    <div class="phone">
+      <div class="phone-shell s5">
+        <div class="phone-notch"></div>
+        <div class="phone-screen s5">
+          <div class="top-bar">
+            <div class="back">← Resultados</div>
+            <div class="title">Confirmar reserva</div>
+          </div>
+          <div class="body">
+            <div class="car-hero">
+              <div class="car-big">🚗</div>
+              <div class="car-name">VW Polo Automático</div>
+              <div class="car-plate">Categoria Econômica · AC</div>
+            </div>
+            <div class="summary">
+              <div class="sum-row"><span class="sum-label">Retirada</span><span class="sum-val">GRU · 10/03 · 09h</span></div>
+              <div class="sum-row"><span class="sum-label">Devolução</span><span class="sum-val">GRU · 15/03 · 09h</span></div>
+              <div class="sum-row"><span class="sum-label">Duração</span><span class="sum-val">5 dias</span></div>
+              <div class="sum-row"><span class="sum-label">Subtotal</span><span class="sum-val">R$ 445,00</span></div>
+              <div class="sum-row"><span class="sum-label">Total</span><span class="sum-val total">R$ 445,00</span></div>
+            </div>
+            <div style="font-size:9px; color: var(--gray-50); font-weight:700; text-transform:uppercase; letter-spacing:.08em;">Forma de pagamento</div>
+            <div class="pix-row">
+              <div class="pix-opt sel"><div class="pix-icon">💳</div>Cartão salvo</div>
+              <div class="pix-opt"><div class="pix-icon">🟢</div>PIX</div>
+              <div class="pix-opt"><div class="pix-icon">📄</div>Boleto</div>
+            </div>
+            <div class="btn">✅ Confirmar e pagar</div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">Tela 05 · Confirmação</div>
+    </div>
+
+    <div class="arrow">→</div>
+
+    <!-- TELA 6: SUCESSO -->
+    <div class="phone">
+      <div class="phone-shell s6">
+        <div class="phone-notch"></div>
+        <div class="phone-screen s6">
+          <div class="body">
+            <div class="check">✅</div>
+            <div class="title">Reserva confirmada!</div>
+            <div class="sub">Seu veículo está garantido. Dirija-se ao balcão para retirada.</div>
+            <div class="ticket">
+              <div class="ticket-row"><span class="ticket-label">Veículo</span><span class="ticket-val">VW Polo Auto</span></div>
+              <div class="ticket-row"><span class="ticket-label">Retirada</span><span class="ticket-val">10/03 · 09h · GRU</span></div>
+              <div class="ticket-row"><span class="ticket-label">Devolução</span><span class="ticket-val">15/03 · 09h · GRU</span></div>
+              <div class="ticket-row"><span class="ticket-label">Cód. reserva</span><span class="ticket-val" style="color:var(--red);">#UND-48291</span></div>
+              <div class="ticket-row"><span class="ticket-label">Total pago</span><span class="ticket-val" style="color:var(--green);">R$ 445,00 ✓</span></div>
+            </div>
+            <div class="btn">🏠 Ir para Início</div>
+            <div class="btn2">📥 Baixar comprovante</div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">Tela 06 · Sucesso</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ANNOTATION PANEL -->
+<div class="annotation-panel">
+  <h3>📋 Notas do Protótipo — Pontos de Validação com o Usuário</h3>
+  <div class="annotations-grid">
+    <div class="ann-card">
+      <div class="ann-num">TELA 01 · Login</div>
+      <div class="ann-title">Facilidade de acesso</div>
+      <div class="ann-text">Testar se o usuário prefere login social (Google/Apple) ao tradicional e-mail/senha. Reduz atrito inicial, especialmente para novos clientes.</div>
+    </div>
+    <div class="ann-card">
+      <div class="ann-num">TELA 02 · Home</div>
+      <div class="ann-title">Atalhos para ações mais usadas</div>
+      <div class="ann-text">Validar se o cliente de frotas e o cliente pessoa física navegam de forma distinta. O card "Alugar veículo" em destaque foi hipótese levantada durante imersão DT.</div>
+    </div>
+    <div class="ann-card">
+      <div class="ann-num">TELA 03 · Busca</div>
+      <div class="ann-title">Filtros relevantes para o contexto</div>
+      <div class="ann-text">Testar se os campos de data, local e categoria são suficientes ou se o usuário sente falta de filtros adicionais, como "pet-friendly" ou bagageiro.</div>
+    </div>
+    <div class="ann-card">
+      <div class="ann-num">TELA 04 · Resultados</div>
+      <div class="ann-title">Clareza das informações de comparação</div>
+      <div class="ann-text">Verificar se o usuário compreende os badges e badges de categoria. O destaque "Mais alugado" surgiu como elemento de prova social no workshop de DT.</div>
+    </div>
+    <div class="ann-card">
+      <div class="ann-num">TELA 05 · Confirmação</div>
+      <div class="ann-title">Transparência antes do pagamento</div>
+      <div class="ann-text">Ponto crítico: o usuário precisa ver resumo completo antes de pagar. Testar se há ansiedade sobre taxas ocultas — problema identificado na fase de empatia.</div>
+    </div>
+    <div class="ann-card">
+      <div class="ann-num">TELA 06 · Sucesso</div>
+      <div class="ann-title">Redução do tempo de retirada</div>
+      <div class="ann-text">O código de reserva visível e o comprovante digital são hipóteses para eliminar filas no balcão — principal dor mapeada no mapa de jornada do cliente.</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
